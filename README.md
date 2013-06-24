@@ -46,6 +46,16 @@ print hashed, unhashed
 6LhOma5b 2013
 ```
 
+Generating your own primes
+--------------------------
+The default primes are generated using the golden ratio, `1.618033988749894848`
+but this can be changed with `basehash.base.GENERATOR`
+
+```python
+# Generate primes, default golden ratio.
+GENERATOR = 1.618033988749894848 # Change to whatever you'd like
+```
+
 Maximum number while hashing
 ----------------------------
 There is a maximum number while hashing with any given base. To find out what

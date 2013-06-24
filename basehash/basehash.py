@@ -1,9 +1,12 @@
 # Default hash key length
 HASH_LENGTH = 6
 
+# Generate primes, default golden ratio.
+GENERATOR = 1.618033988749894848
+
 # Generates next prime from supplied `base` and `n`.
-# The default `ratio` is set to the golden ratio, golden primes.
-def prime(base, n, ratio=1.618033988749894848):
+# The default `gen` is set to the golden ratio, golden primes.
+def prime(base, n, gen=GENERATOR):
 	def next_prime(num):
 		def is_prime(x):
 			if x == 2:
@@ -18,7 +21,7 @@ def prime(base, n, ratio=1.618033988749894848):
 				break
 			num += 2
 		return num
-	return next_prime(int(base ** n * ratio))
+	return next_prime(int(base ** n * gen))
 
 
 # Get the multiplicative inverse of given prime and modulus.
