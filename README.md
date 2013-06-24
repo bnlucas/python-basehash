@@ -71,6 +71,18 @@ print base36.maximum(12)
 4738381338321616895
 ```
 
+So with the max number for `base36` at length `12` as `4738381338321616895` we
+get the following:
+
+```python
+from basehash import base36
+
+hash = base36.hash(4738381338321616895, 12)
+# 'DR10828P4CZP'
+
+hash = base36.hash(4738381338321616896, 12)
+# ValueError: Number is too large for given length. Maximum is 36^12 - 1.
+
 Extending
 ---------
 ```python
