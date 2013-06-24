@@ -86,6 +86,6 @@ def maximum(length=HASH_LENGTH):
 	return base_maximum(len(ALPHA), length)
 ```
 
-[ps]: https://github.com/KevBurnsJr/pseudocrypt
+[pc]: https://github.com/KevBurnsJr/pseudocrypt
 [kb]: https://github.com/KevBurnsJr
 [flt]: http://en.wikipedia.org/wiki/Fermat's_little_theorem
