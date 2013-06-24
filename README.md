@@ -82,9 +82,11 @@ hash = base36.hash(4738381338321616895, 12)
 
 hash = base36.hash(4738381338321616896, 12)
 # ValueError: Number is too large for given length. Maximum is 36^12 - 1.
+```
 
 Extending
 ---------
+
 ```python
 from basehash.base import *
 
