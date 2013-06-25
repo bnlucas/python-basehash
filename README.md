@@ -6,7 +6,7 @@ to a given base and length. The project is based on the GO library, [PseudoCrypt
 by [Kevin Burns][kb]. The library is extendible to use custom alphabets and other
 bases.
 
-The library uses golden primes and [Fermat's little theorem][flt] for hashing to
+The library uses golden primes and [Miller-Rabin primality test][mr] for hashing to
 `n` length. From testing, I have gotten `base62` up to `171` in length.
 
 ```
@@ -112,4 +112,4 @@ def maximum(length=HASH_LENGTH):
 
 [pc]: https://github.com/KevBurnsJr/pseudocrypt
 [kb]: https://github.com/KevBurnsJr
-[flt]: http://en.wikipedia.org/wiki/Fermat's_little_theorem
+[mr]: http://en.wikipedia.org/wiki/Miller-Rabin_primality_test
