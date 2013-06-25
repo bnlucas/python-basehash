@@ -1,4 +1,5 @@
 import base36
+import base52
 import base56
 import base58
 import base62
