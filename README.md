@@ -6,8 +6,13 @@ to a given base and length. The project is based on the GO library, [PseudoCrypt
 by [Kevin Burns][kb]. The library is extendible to use custom alphabets and other
 bases.
 
+<<<<<<< HEAD
 The library uses golden primes and [Miller-Rabin primality test][mr] for hashing to
 `n` length. From testing, I have gotten `base62` up to `171` in length.
+=======
+The library uses golden primes and the [Baillie-PSW][bp] primality test for hashing 
+to `n` length. From testing, I have gotten `base62` up to `171` in length.
+>>>>>>> Overhaul.
 
 ```
 Maximum number is Base^Length - 1.
@@ -95,16 +100,16 @@ ALPHA = tuple('24680ACEGIKMOQSUWYbdfhjlnprtvxz')
 # Length 'base' is 31 -> len(ALPHA)
 
 def encode(num):
-	return base_encode(num, len(ALPHA), ALPHA)
+	return base_encode(num, ALPHA)
 
 def decode(key):
-	return base_decode(key, len(ALPHA), ALPHA)
+	return base_decode(key, ALPHA)
 
 def hash(num, length=HASH_LENGTH):
-	return base_hash(num, length, len(ALPHA), ALPHA)
+	return base_hash(num, length, ALPHA)
 
 def unhash(key):
-	return base_unhash(key, len(ALPHA), ALPHA)
+	return base_unhash(key, ALPHA)
 
 def maximum(length=HASH_LENGTH):
 	return base_maximum(len(ALPHA), length)
@@ -112,4 +117,8 @@ def maximum(length=HASH_LENGTH):
 
 [pc]: https://github.com/KevBurnsJr/pseudocrypt
 [kb]: https://github.com/KevBurnsJr
+<<<<<<< HEAD
 [mr]: http://en.wikipedia.org/wiki/Miller-Rabin_primality_test
+=======
+[bp]: http://en.wikipedia.org/wiki/Baillie-PSW_primality_test
+>>>>>>> Overhaul.
