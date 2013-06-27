@@ -3,11 +3,7 @@ from math import sqrt
 from random import randrange
 
 def factor(n, p=2):
-<<<<<<< HEAD
-    s = 0
-=======
 	s = 0
->>>>>>> Overhaul.
 	d = n - 1
 	q = p
 
