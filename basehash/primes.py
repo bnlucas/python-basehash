@@ -2,6 +2,16 @@ from fractions import gcd
 from math import sqrt
 from random import randrange
 
+def get_sqrt(n):
+	if n <= 10**308:
+		return sqrt(n)
+	x = n
+	while True:
+		y = (n // x + x) >> 1
+		if x <= y:
+			return x
+		x = y
+
 def factor(n, p=2):
 	s = 0
 	d = n - 1
@@ -146,6 +156,9 @@ def baillie_psw(n, limit=100):
 	def is_square(n):
 		s = sqrt(n)
 		return s * s == n
+		
+	if not n & 1:
+		return False
 
 	if n < 2 or is_square(n):
 		return False
@@ -168,7 +181,7 @@ def next_prime(n):
 	gap = [1, 6, 5, 4, 3, 2, 1, 4, 3, 2, 1, 2, 1, 4, 3, 2, 1, 2, 1, 4, 3, 2, 1, 
 		   6, 5, 4, 3, 2, 1, 2]
 
-	n = n + 1 if not n & 1 else n + 2
+	n += 1 if not n & 1 else 2
 
 	while not baillie_psw(n):
 		n += gap[n % 30]
