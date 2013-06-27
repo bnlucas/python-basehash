@@ -1,17 +1,25 @@
 from fractions import gcd
-from math import sqrt
 from random import randrange
 
 
-def get_sqrt(n):
-    if n <= 10**308:
-        return sqrt(n)
-    x = n
+def isqrt(n):
+    if n < 0:
+        raise ValueError('Square root is not defined for negative numbers.')
+    x = int(n)
+    if x == 0:
+        return 0
+    a, b = divmod(x.bit_length(), 2)
+    n = 2 ** (a + b)
     while True:
-        y = (n // x + x) >> 1
-        if x <= y:
-            return x
-        x = y
+        y = (n + x // n) >> 1
+        if y >= n:
+            return n
+        n = y
+
+
+def is_square(n):
+    s = isqrt(n)
+    return s * s == n
 
 
 def factor(n, p=2):
@@ -163,11 +171,6 @@ def miller_rabin(n, k=10):
 
 
 def baillie_psw(n, limit=100):
-    
-def is_square(n):
-        s = sqrt(n)
-        return s * s == n
-        
     if not n & 1:
         return False
 
@@ -179,8 +182,8 @@ def is_square(n):
             return False
 
     return strong_pseudoprime(n, 2) \
-       and strong_pseudoprime(n, 3) \
-       and strong_lucas_pseudoprime(n)
+        and strong_pseudoprime(n, 3) \
+        and strong_lucas_pseudoprime(n)
 
 
 def next_prime(n):
@@ -190,7 +193,7 @@ def next_prime(n):
     if n < 5:
         return [3, 5, 5][n - 2]
 
-    gap = [1, 6, 5, 4, 3, 2, 1, 4, 3, 2, 1, 2, 1, 4, 3, 2, 1, 2, 1, 4, 3, 2, 1, 
+    gap = [1, 6, 5, 4, 3, 2, 1, 4, 3, 2, 1, 2, 1, 4, 3, 2, 1, 2, 1, 4, 3, 2, 1,
            6, 5, 4, 3, 2, 1, 2]
 
     n += 1 if not n & 1 else 2
