@@ -1,7 +1,6 @@
 from fractions import gcd
 from random import randrange
 
-
 PRIMES_LE_31 = (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31)
 PRIMONIAL_31 = 200560490130
 
@@ -127,6 +126,9 @@ def chain(n, u1, v1, u2, v2, d, q, m):
 
 
 def strong_pseudoprime(n, a, s=None, d=None):
+    if not n & 1:
+        return False
+
     if (s is None) or (d is None):
         s, d = factor(n, 2)
 
@@ -145,15 +147,21 @@ def strong_pseudoprime(n, a, s=None, d=None):
 
 
 def lucas_pseudoprime(n):
+    if not n & 1:
+        return False
+
     d, p, q = selfridge(n)
     if p == 0:
         return n == d
 
-    u, v, k = chain(n, 0, 2, 1, p, d, q, (n + 1) / 2)
+    u, v, k = chain(n, 0, 2, 1, p, d, q, (n + 1) >> 1)
     return u == 0
 
 
 def strong_lucas_pseudoprime(n):
+    if not n & 1:
+        return False
+
     d, p, q = selfridge(n)
     if p == 0:
         return n == d

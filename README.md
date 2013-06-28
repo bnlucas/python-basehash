@@ -9,6 +9,21 @@ bases.
 The library uses golden primes and the [Baillie-PSW][bp] primality test for hashing 
 to `n` length. From testing, I have gotten `base62` up to `171` in length.
 
+
+Install
+=======
+
+```
+pip install basehash
+```
+
+Testing
+=======
+
+```
+nosetests tests/
+```
+
 ```
 Maximum number is Base^Length - 1.
 -> 62^171 - 1 or 315485137315301582773830923281251564555089304044116975095028710
