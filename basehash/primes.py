@@ -181,6 +181,12 @@ def miller_rabin(n, k=10):
     if not n & 1:
         return False
 
+    if n < 2 or is_square(n):
+        return False
+
+    if gcd(n, PRIMONIAL_31) > 1:
+        return n in PRIMES_LE_31
+
     s, d = factor(n)
 
     for i in xrange(k):
