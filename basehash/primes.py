@@ -2,6 +2,10 @@ from fractions import gcd
 from random import randrange
 
 
+PRIMES_LE_31 = (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31)
+PRIMONIAL_31 = 200560490130
+
+
 def invmul(x, mod):
     if mod <= 0:
         raise ValueError('Modulus must be greater than zero.')
@@ -188,13 +192,20 @@ def miller_rabin(n, k=10):
 
 
 def baillie_psw(n, limit=100):
+    if n == 2:
+        return True
+
     if not n & 1:
         return False
 
     if n < 2 or is_square(n):
         return False
 
-    for i in xrange(3, limit + 1, 2):
+    if gcd(n, PRIMONIAL_31) > 1:
+        return n in PRIMES_LE_31
+
+    bound = min(limit, isqrt(n))
+    for i in xrange(3, bound, 2):
         if not n % i:
             return False
 

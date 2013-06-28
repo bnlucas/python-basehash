@@ -28,12 +28,12 @@ print base62.hash(200)
 print base94.hash(200)
 
 # Base unhash hashed string.
-print base36.unhash('LUEVEW')
-print base52.unhash('bXmfyc')
+print base36.unhash('LUEREG')
+print base52.unhash('bXmcJ8')
 print base56.unhash('byvT3s')
 print base58.unhash('cCGYMV')
 print base62.unhash('bcWuqW')
-print base94.unhash('Z$_RT{')
+print base94.unhash('Z$_P7y')
 
 # Get maximum number for hashing by `length`
 print base36.maximum(HASH_LENGTH)
