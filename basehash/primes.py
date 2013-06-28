@@ -2,6 +2,23 @@ from fractions import gcd
 from random import randrange
 
 
+def invmul(x, mod):
+    if mod <= 0:
+        raise ValueError('Modulus must be greater than zero.')
+    a = abs(x)
+    b = mod
+    c, d, e, f = 1, 0, 0, 1
+    while b > 0:
+        q, r = divmod(a, b)
+        g = c - q * d
+        h = e - q * f
+        a, b, c, d, e, f = b, r, d, g, f, h
+    if a != 1:
+        raise ValueError('{x} has no multiplicative '
+                         'inverse modulo {m}'.format(x=x, m=mod))
+    return c * -1 if x < 0 else c * 1
+
+
 def isqrt(n):
     if n < 0:
         raise ValueError('Square root is not defined for negative numbers.')

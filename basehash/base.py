@@ -1,4 +1,4 @@
-from primes import next_prime
+from primes import invmul, next_prime
 
 # Default hash key length
 HASH_LENGTH = 6
@@ -11,24 +11,6 @@ GENERATOR = 1.618033988749894848
 # The default `gen` is set to the golden ratio, golden primes.
 def prime(base, n, gen=GENERATOR):
     return next_prime(int(base ** n * gen))
-
-
-# Get the multiplicative inverse of given prime and modulus.
-def mulinv(x, mod):
-    if mod <= 0:
-        raise ValueError('Modulus must be greater than zero.')
-    a = abs(x)
-    b = mod
-    c, d, e, f = 1, 0, 0, 1
-    while b > 0:
-        q, r = divmod(a, b)
-        g = c - q * d
-        h = e - q * f
-        a, b, c, d, e, f = b, r, d, g, f, h
-    if a != 1:
-        raise ValueError('{x} has no multiplicative '
-                         'inverse modulo {m}'.format(x=x, m=mod))
-    return c * -1 if x < 0 else c * 1
 
 
 ## Base encode number
@@ -72,7 +54,7 @@ def base_unhash(key, alphabet):
     length = len(key)
     base = len(alphabet)
     m = base ** length
-    return base_decode(key, alphabet) * mulinv(prime(base, length), m) % m
+    return base_decode(key, alphabet) * invmul(prime(base, length), m) % m
 
 
 ## Base maximum of given `length`
