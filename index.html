@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>BaseHash by bnlucas</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>BaseHash</h1>
+        <p>Extendible base hashing in Python.</p>
+
+        <p class="view"><a href="https://github.com/bnlucas/python-basehash">View the Project on GitHub <small>bnlucas/python-basehash</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/bnlucas/python-basehash/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/bnlucas/python-basehash/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/bnlucas/python-basehash">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="basehash" class="anchor" href="#basehash"><span class="octicon octicon-link"></span></a>BaseHash</h1>
+
+<p>BaseHash is a small library for creating reversible obfuscated identifier hashes
+to a given base and length. The project is based on the GO library, <a href="https://github.com/KevBurnsJr/pseudocrypt">PseudoCrypt</a>
+by <a href="https://github.com/KevBurnsJr">Kevin Burns</a>. The library is extendible to use custom alphabets and other
+bases.</p>
+
+<p>The library uses golden primes and the <a href="http://en.wikipedia.org/wiki/Baillie-PSW_primality_test">Baillie-PSW</a> primality test for hashing 
+to <code>n</code> length. From testing, I have gotten <code>base62</code> up to <code>171</code> in length.</p>
+
+<pre><code>Maximum number is Base^Length - 1.
+-&gt; 62^171 - 1 or 315485137315301582773830923281251564555089304044116975095028710
+                 008180170985809814948409129256031320171601473029340987051144213
+                 425607224233134700199050224309707192084206558324823774511143549
+                 765069844412467187455459156942237963528166277256376429656681225
+                 8180788198965409784329587392583208081351811265973977087
+</code></pre>
+
+<h2>
+<a name="encode" class="anchor" href="#encode"><span class="octicon octicon-link"></span></a>Encode</h2>
+
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">basehash</span> <span class="kn">import</span> <span class="n">base62</span>
+
+<span class="n">encoded</span> <span class="o">=</span> <span class="n">base62</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="mi">2013</span><span class="p">)</span>
+<span class="n">decoded</span> <span class="o">=</span> <span class="n">base62</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">'WT'</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">encoded</span><span class="p">,</span> <span class="n">decoded</span>
+</pre></div>
+
+<pre><code>WT 2013
+</code></pre>
+
+<h2>
+<a name="hash" class="anchor" href="#hash"><span class="octicon octicon-link"></span></a>Hash</h2>
+
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">basehash</span> <span class="kn">import</span> <span class="n">base62</span>
+
+<span class="n">hashed</span>   <span class="o">=</span> <span class="n">base62</span><span class="o">.</span><span class="n">hash</span><span class="p">(</span><span class="mi">2013</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">unhashed</span> <span class="o">=</span> <span class="n">base62</span><span class="o">.</span><span class="n">unhash</span><span class="p">(</span><span class="s">'6LhOma5b'</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">hashed</span><span class="p">,</span> <span class="n">unhashed</span>
+</pre></div>
+
+<pre><code>6LhOma5b 2013
+</code></pre>
+
+<h2>
+<a name="generating-your-own-primes" class="anchor" href="#generating-your-own-primes"><span class="octicon octicon-link"></span></a>Generating your own primes</h2>
+
+<p>The default primes are generated using the golden ratio, <code>1.618033988749894848</code>
+but this can be changed with <code>basehash.base.GENERATOR</code></p>
+
+<div class="highlight"><pre><span class="c"># Generate primes, default golden ratio.</span>
+<span class="n">GENERATOR</span> <span class="o">=</span> <span class="mf">1.618033988749894848</span> <span class="c"># Change to whatever you'd like</span>
+</pre></div>
+
+<h2>
+<a name="maximum-number-while-hashing" class="anchor" href="#maximum-number-while-hashing"><span class="octicon octicon-link"></span></a>Maximum number while hashing</h2>
+
+<p>There is a maximum number while hashing with any given base. To find out what
+this number is, we use the <code>Base^Length - 1</code> inside the <code>base_maximum(length)</code>
+method</p>
+
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">basehash</span> <span class="kn">import</span> <span class="n">base36</span>
+
+<span class="k">print</span> <span class="n">base36</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+
+<pre><code>4738381338321616895
+</code></pre>
+
+<p>So with the max number for <code>base36</code> at length <code>12</code> as <code>4738381338321616895</code> we
+get the following:</p>
+
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">basehash</span> <span class="kn">import</span> <span class="n">base36</span>
+
+<span class="nb">hash</span> <span class="o">=</span> <span class="n">base36</span><span class="o">.</span><span class="n">hash</span><span class="p">(</span><span class="mi">4738381338321616895</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="c"># 'DR10828P4CZP'</span>
+
+<span class="nb">hash</span> <span class="o">=</span> <span class="n">base36</span><span class="o">.</span><span class="n">hash</span><span class="p">(</span><span class="mi">4738381338321616896</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="c"># ValueError: Number is too large for given length. Maximum is 36^12 - 1.</span>
+</pre></div>
+
+<h2>
+<a name="extending" class="anchor" href="#extending"><span class="octicon octicon-link"></span></a>Extending</h2>
+
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">basehash.base</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">ALPHA</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="s">'24680ACEGIKMOQSUWYbdfhjlnprtvxz'</span><span class="p">)</span>
+
+<span class="c"># Length 'base' is 31 -&gt; len(ALPHA)</span>
+
+<span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_encode</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">ALPHA</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_decode</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ALPHA</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">hash</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">HASH_LENGTH</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_hash</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">ALPHA</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">unhash</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_unhash</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ALPHA</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">maximum</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">HASH_LENGTH</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_maximum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ALPHA</span><span class="p">),</span> <span class="n">length</span><span class="p">)</span>
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/bnlucas">bnlucas</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-42065331-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
