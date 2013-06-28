@@ -1,3 +1,8 @@
 *.pyc
 *.zip
-MANIFEST
+*.egg
+
+MANIFEST.in
+
+BaseHash.egg-info/
+dist/
