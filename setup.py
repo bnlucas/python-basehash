@@ -36,7 +36,7 @@ setup(
     license=open('LICENSE').read(),
     zip_safe=False,
     keywords=['base', 'encoding', 'hash', 'hashing', 'security'],
-    classifiers=(
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Programming Language :: Python',
         'License :: OSI Approved :: Apache Software License',
@@ -46,5 +46,5 @@ setup(
         'Topic :: Security',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Utilities'
-    ),
+    ],
 )

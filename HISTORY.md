@@ -1,3 +1,9 @@
+1.0.6 (2013-06-29)
+++++++++++++++++++
+
+- Fixed issues with setup.py. First time using a setup.py within a package,
+  first time publishing the library outside of GitHub.
+
 1.0.5 (2013-06-28)
 ++++++++++++++++++
 
