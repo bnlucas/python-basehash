@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Extending to BaseX &mdash; BaseHash 1.0.6 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="BaseHash 1.0.6 documentation" href="index.html" />
+    <link rel="prev" title="Built-in BaseN" href="basen.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="basen.html" title="Built-in BaseN"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">BaseHash 1.0.6 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="extending-to-basex">
+<h1>Extending to <tt class="docutils literal"><span class="pre">BaseX</span></tt><a class="headerlink" href="#extending-to-basex" title="Permalink to this headline">¶</a></h1>
+<p>Much work was put into generating prime numbers on the fly, allowing BaseHash to
+be extended to <tt class="docutils literal"><span class="pre">BaseX</span></tt> with ease. To extend the library, you just need to
+import <tt class="docutils literal"><span class="pre">basehash.base</span></tt> and call a few mthods.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">basehash.base</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># ALPHA must be a tuple</span>
+<span class="n">ALPHA</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="s">&#39;24680ACEGIKMOQSUWYbdfhjlnprtvxz&#39;</span><span class="p">)</span>
+
+
+<span class="c"># hash `num` to `ALPHA` at `length` characters</span>
+<span class="k">def</span> <span class="nf">hash</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">HASH_LENGTH</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_hash</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">ALPHA</span><span class="p">)</span>
+
+
+<span class="c"># unhash `key` from `ALPHA`</span>
+<span class="k">def</span> <span class="nf">unhash</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_unhash</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ALPHA</span><span class="p">)</span>
+
+<span class="c">## optional methods:</span>
+
+
+<span class="c"># encode `num` to `ALPHA`</span>
+<span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_encode</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">ALPHA</span><span class="p">)</span>
+
+
+<span class="c"># decode `key` from `ALPHA`</span>
+<span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_decode</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ALPHA</span><span class="p">)</span>
+
+
+<span class="c"># return maximum value for `hash` at `length`</span>
+<span class="k">def</span> <span class="nf">maximum</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">HASH_LENGTH</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_maximum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ALPHA</span><span class="p">),</span> <span class="n">length</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="basen.html"
+                        title="previous chapter">Built-in <tt class="docutils literal docutils literal docutils literal"><span class="pre">BaseN</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/basex.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="basen.html" title="Built-in BaseN"
+             >previous</a> |</li>
+        <li><a href="index.html">BaseHash 1.0.6 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Nathan Lucas.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

@@ -9,7 +9,7 @@ GENERATOR = 1.618033988749894848
 
 # Generates next prime from supplied `base` and `n`.
 # The default `gen` is set to the golden ratio, golden primes.
-def prime(base, n, gen=GENERATOR):
+def prime(base, n, gen):
     return next_prime(int(base ** n * gen))
 
 
@@ -39,22 +39,22 @@ def base_decode(key, alphabet):
 
 ## Base hash number to x length
 # General hasher. Hashes `num` with `length` and `base`
-def base_hash(num, length, alphabet):
+def base_hash(num, length, alphabet, gen=GENERATOR):
     base = len(alphabet)
     if num > (base ** length - 1):
         raise ValueError('Number is too large for given length. '
                          'Maximum is {b}^{l} - 1.'.format(b=base, l=length))
-    num = num * prime(base, length) % base ** length
+    num = num * prime(base, length, gen) % base ** length
     return base_encode(num, alphabet)
 
 
 ## Base unhash key
 # General unhasher. Unhashes `key` with `base` and `alphabet`
-def base_unhash(key, alphabet):
+def base_unhash(key, alphabet, gen=GENERATOR):
     length = len(key)
     base = len(alphabet)
     m = base ** length
-    return base_decode(key, alphabet) * invmul(prime(base, length), m) % m
+    return base_decode(key, alphabet) * invmul(prime(base, length, gen), m) % m
 
 
 ## Base maximum of given `length`
