@@ -63,7 +63,7 @@ base_unhash
 base_maximum
 ------------
 
--- py:function:: base_maximum(base, length)
+.. py:function:: base_maximum(base, length)
 
    Returns maximum ``int`` that *int* ``base`` ^ *int* ``length`` can take.
    Returns ``int``
