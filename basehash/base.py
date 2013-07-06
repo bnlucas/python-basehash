@@ -48,7 +48,7 @@ def base_hash(num, length, alphabet, gen=GENERATOR):
         raise ValueError('Number is too large for given length. '
                          'Maximum is {b}^{l} - 1.'.format(b=base, l=length))
     num = num * prime(base, length, gen) % base ** length
-    return base_encode(num, alphabet).rjust(length, '0')
+    return base_encode(num, alphabet).rjust(length, alphabet[0])
 
 
 ## Base unhash key

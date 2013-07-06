@@ -3,7 +3,7 @@
 
 - There was an issue with hashes sometimes being returned one to two charcters
   shorter than `length`, causing `base.base_unhash` to not function properly. To
-  fix this, the hashes are right-padded with `0`.
+  fix this, the hashes are right-padded with `alphabet[0]`.
 
 - Since `0` raises an error inside `primes.invmul`, `base.base_unhash` is unable
   to unhash it. To allow the start of your number sequence to be `0` instead of
