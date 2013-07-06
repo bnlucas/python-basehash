@@ -40,18 +40,25 @@ def base_decode(key, alphabet):
 ## Base hash number to x length
 # General hasher. Hashes `num` with `length` and `base`
 def base_hash(num, length, alphabet, gen=GENERATOR):
+    if num == 0:
+        return ''.rjust(length, alphabet[0])
+
     base = len(alphabet)
     if num > (base ** length - 1):
         raise ValueError('Number is too large for given length. '
                          'Maximum is {b}^{l} - 1.'.format(b=base, l=length))
     num = num * prime(base, length, gen) % base ** length
-    return base_encode(num, alphabet)
+    return base_encode(num, alphabet).rjust(length, '0')
 
 
 ## Base unhash key
 # General unhasher. Unhashes `key` with `base` and `alphabet`
 def base_unhash(key, alphabet, gen=GENERATOR):
     length = len(key)
+
+    if key == ''.rjust(length, alphabet[0]):
+        return 0
+
     base = len(alphabet)
     m = base ** length
     return base_decode(key, alphabet) * invmul(prime(base, length, gen), m) % m

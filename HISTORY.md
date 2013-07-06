@@ -1,3 +1,15 @@
+1.0.7 (2013-07-06)
+++++++++++++++++++
+
+- There was an issue with hashes sometimes being returned one to two charcters
+  shorter than `length`, causing `base.base_unhash` to not function properly. To
+  fix this, the hashes are right-padded with `0`.
+
+- Since `0` raises an error inside `primes.invmul`, `base.base_unhash` is unable
+  to unhash it. To allow the start of your number sequence to be `0` instead of
+  `1`, if needed, hashing `base.base_hash(0, length=6)` will return
+  `''.rjust(length, alphabet[0])`.
+
 1.0.6 (2013-06-29)
 ++++++++++++++++++
 
