@@ -20,14 +20,14 @@ Maximum number is Base^Length - 1.
 
 
 Install
-=======
+-------
 
 ```
 pip install basehash
 ```
 
 Testing
-=======
+-------
 
 ```
 nosetests tests/
@@ -36,7 +36,9 @@ nosetests tests/
 Encode
 ------
 ```python
-from basehash import base62
+import basehash
+
+base62 = basehash.base62()
 
 encoded = base62.encode(2013)
 decoded = base62.decode('WT')
@@ -50,7 +52,9 @@ WT 2013
 Hash
 ----
 ```python
-from basehash import base62
+import basehash
+
+base62 = basehash.base62()
 
 hashed   = base62.hash(2013, 8)
 unhashed = base62.unhash('6LhOma5b')
@@ -63,24 +67,27 @@ print hashed, unhashed
 
 Generating your own primes
 --------------------------
-The default primes are generated using the golden ratio, `1.618033988749894848`
-but this can be changed with `basehash.base.GENERATOR`
+The `GENERATOR` variable uses the golden ratio, `1.618033988749894848`, to get
+the next highest prime of `base ** number * generator`. This can be overridden
+within the base classes.
 
 ```python
-# Generate primes, default golden ratio.
-GENERATOR = 1.618033988749894848 # Change to whatever you'd like
+import basehash
+
+base62 = base62(1.75) # base62(generator=1.75)
 ```
 
 Maximum number while hashing
 ----------------------------
 There is a maximum number while hashing with any given base. To find out what
-this number is, we use the `Base^Length - 1` inside the `base_maximum(length)`
-method
+this number is, we use the `Base^Length - 1`.
 
 ```python
-from basehash import base36
+import basehash
 
-print base36.maximum(12)
+base36 = basehash.base36()
+
+print base36.maximum_value(12) # or base36.maximum(length)
 ```
 ```
 4738381338321616895
@@ -90,7 +97,9 @@ So with the max number for `base36` at length `12` as `4738381338321616895` we
 get the following:
 
 ```python
-from basehash import base36
+import basehash
+
+base36 = basehash.base36()
 
 hash = base36.hash(4738381338321616895, 12)
 # 'DR10828P4CZP'
@@ -101,28 +110,19 @@ hash = base36.hash(4738381338321616896, 12)
 
 Extending
 ---------
+Extending is made easy with some time spent determining the next highest prime
+dynamically, the fastest possible that I have been able to make it so far.
 
 ```python
-from basehash.base import *
+import basehash
 
-ALPHA = tuple('24680ACEGIKMOQSUWYbdfhjlnprtvxz')
+custom = basehash('24680ACEGIKMOQSUWYbdfhjlnprtvxz')
 
-# Length 'base' is 31 -> len(ALPHA)
-
-def encode(num):
-	return base_encode(num, ALPHA)
-
-def decode(key):
-	return base_decode(key, ALPHA)
-
-def hash(num, length=HASH_LENGTH):
-	return base_hash(num, length, ALPHA)
-
-def unhash(key):
-	return base_unhash(key, ALPHA)
-
-def maximum(length=HASH_LENGTH):
-	return base_maximum(len(ALPHA), length)
+print custom.encode(2013)       # 66x
+print custom.decode('66x')      # 2013
+print custom.hash(2013, 8)      # 8AQAQdYd
+print custom.unhash('8AQAQdYd') # 2013
+print custom.maximum_value(12)  # 787662783788549760
 ```
 
 [pc]: https://github.com/KevBurnsJr/pseudocrypt

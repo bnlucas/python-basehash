@@ -1,50 +1,31 @@
 from nose.tools import raises
 
-from basehash.base import *
-
-ALPHA = tuple('0SYv2xCbfhzGK4AW8E6QUpnjdtMOIlr')
+from basehash import basehash
 
 
-def encode(num):
-    return base_encode(num, ALPHA)
+basex = basehash('0SYv2xCbfhzGK4AW8E6QUpnjdtMOIlr')
 
 
-def decode(key):
-    return base_decode(key, ALPHA)
+def test_custom_encode_with_1234567890_SKvdr0U():
+    assert basex.encode(1234567890) == 'SKvdr0U'
 
 
-def hash(num, length=HASH_LENGTH):
-    return base_hash(num, length, ALPHA)
+def test_custom_decode_with_SKvdr0U_1234567890():
+    assert basex.decode('SKvdr0U') == 1234567890
 
 
-def unhash(key):
-    return base_unhash(key, ALPHA)
+def test_custom_hash_with_1234567890_10_4QxzxC4CtG():
+    assert basex.hash(1234567890, 10) == '4QxzxC4CtG'
 
 
-def maximum(length=HASH_LENGTH):
-    return base_maximum(len(ALPHA), length)
+def test_custom_unhash_with_4QxzxC4CtG_1234567890():
+    assert basex.unhash('4QxzxC4CtG') == 1234567890
 
 
-def test_custom_encode():
-    assert encode(1234567890) == 'SKvdr0U'
-
-
-def test_custom_decode():
-    assert decode('SKvdr0U') == 1234567890
-
-
-def test_custom_hash():
-    assert hash(1234567890, 10) == '4QxzxC4CtG'
-
-
-def test_custom_unhash():
-    assert unhash('4QxzxC4CtG') == 1234567890
-
-
-def test_custom_maximum():
-    assert maximum(6) == 887503680
+def test_custom_maximum_value_with_6_887503680():
+    assert basex.maximum_value(6) == 887503680
 
 
 @raises(ValueError)
-def test_custom_hash_fail():
-    assert hash(887503681, 6)
+def test_custom_hash_fail_with_887503681_6():
+    assert basex.hash(887503681, 6)

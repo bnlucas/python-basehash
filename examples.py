@@ -1,5 +1,12 @@
-from basehash import *
-from basehash.base import HASH_LENGTH
+from basehash import HASH_LENGTH, base36, base52, base56, base58, base62, base94
+
+base36 = base36()
+base52 = base52()
+base56 = base56()
+base58 = base58()
+base62 = base62()
+base94 = base94()
+
 
 # Base encode an integer/long
 print base36.encode(200)

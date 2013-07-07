@@ -1,3 +1,9 @@
+2.0.0 (2013-07-07)
+==================
+
+- Moved everything to an object. Removed baseN.py files, allows for easier
+  configuration of `GENERATOR` and for extending to a custom alphabet.
+
 1.0.7 (2013-07-06)
 ==================
 
