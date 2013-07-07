@@ -2,7 +2,7 @@ from primes import invmul, next_prime
 
 __all__ = ('basex', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94')
 
-__version__ = '2.0.0'
+__version__ = '2.0.1'
 
 
 HASH_LENGTH = 6
@@ -18,7 +18,7 @@ BASE94 = ('!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ'
           '[\]^_`abcdefghijklmnopqrstuvwxyz{|}~')
 
 
-class basehash(object):
+class base(object):
 
     def __init__(self, alphabet, generator=GENERATOR):
         self.alphabet = tuple(alphabet)
@@ -75,37 +75,37 @@ class basehash(object):
         return next_prime(int(self.base ** num * self.generator))
 
 
-class base36(basehash):
+class base36(base):
 
     def __init__(self, generator=GENERATOR):
         super(base36, self).__init__(BASE36, generator)
 
 
-class base52(basehash):
+class base52(base):
 
     def __init__(self, generator=GENERATOR):
         super(base52, self).__init__(BASE52, generator)
 
 
-class base56(basehash):
+class base56(base):
 
     def __init__(self, generator=GENERATOR):
         super(base56, self).__init__(BASE56, generator)
 
 
-class base58(basehash):
+class base58(base):
 
     def __init__(self, generator=GENERATOR):
         super(base58, self).__init__(BASE58, generator)
 
 
-class base62(basehash):
+class base62(base):
 
     def __init__(self, generator=GENERATOR):
         super(base62, self).__init__(BASE62, generator)
 
 
-class base94(basehash):
+class base94(base):
 
     def __init__(self, generator=GENERATOR):
         super(base94, self).__init__(BASE94, generator)

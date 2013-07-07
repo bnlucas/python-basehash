@@ -116,7 +116,7 @@ dynamically, the fastest possible that I have been able to make it so far.
 ```python
 import basehash
 
-custom = basehash('24680ACEGIKMOQSUWYbdfhjlnprtvxz')
+custom = basehash.base('24680ACEGIKMOQSUWYbdfhjlnprtvxz')
 
 print custom.encode(2013)       # 66x
 print custom.decode('66x')      # 2013
