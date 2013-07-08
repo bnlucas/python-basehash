@@ -1,9 +1,9 @@
 from nose.tools import raises
 
-from basehash import basehash
+from basehash import base
 
 
-basex = basehash('0SYv2xCbfhzGK4AW8E6QUpnjdtMOIlr')
+basex = base('0SYv2xCbfhzGK4AW8E6QUpnjdtMOIlr')
 
 
 def test_custom_encode_with_1234567890_SKvdr0U():

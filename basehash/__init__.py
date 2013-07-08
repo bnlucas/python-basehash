@@ -1,8 +1,8 @@
 from primes import invmul, next_prime
 
-__all__ = ('basex', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94')
+__all__ = ('base', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94')
 
-__version__ = '2.0.1'
+__version__ = '2.0.1.1'
 
 
 HASH_LENGTH = 6
