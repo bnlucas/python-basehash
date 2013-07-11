@@ -1,3 +1,9 @@
+2.0.2 (2013-07-10)
+==================
+
+- base and baseN now accept a length parameter, defaulted to HASH_LENGTH so that
+  baseN.hash(num, length) so that it set globally, not locally.
+
 2.0.0 (2013-07-07)
 ==================
 

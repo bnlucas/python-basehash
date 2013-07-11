@@ -2,7 +2,7 @@ from primes import invmul, next_prime
 
 __all__ = ('base', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94')
 
-__version__ = '2.0.1.1'
+__version__ = '2.0.2'
 
 
 HASH_LENGTH = 6
@@ -20,9 +20,10 @@ BASE94 = ('!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 class base(object):
 
-    def __init__(self, alphabet, generator=GENERATOR):
+    def __init__(self, alphabet, length=HASH_LENGTH, generator=GENERATOR):
         self.alphabet = tuple(alphabet)
         self.base = len(self.alphabet)
+        self.hash_length = length
         self.generator = generator
 
     def encode(self, num):
@@ -40,7 +41,10 @@ class base(object):
         return sum([self.alphabet.index(c) * self.base ** i
                     for i, c in enumerate(key)])
 
-    def hash(self, num, length=HASH_LENGTH):
+    def hash(self, num, length=None):
+        if length is None:
+            length = self.hash_length
+
         num = int(num)
         if num == 0:
             return ''.rjust(length, self.alphabet[0])
@@ -63,10 +67,16 @@ class base(object):
         m = self.base ** length
         return self.decode(key) * invmul(self.prime(length), m) % m
 
-    def maximum(self, length=HASH_LENGTH):
+    def maximum(self, length=None):
+        if length is None:
+            length = self.hash_length
+
         return self.maximum_value(length)
 
-    def maximum_value(self, length=HASH_LENGTH):
+    def maximum_value(self, length=None):
+        if length is None:
+            length = self.hash_length
+
         length = int(length)
         return self.base ** length - 1
 
@@ -77,35 +87,35 @@ class base(object):
 
 class base36(base):
 
-    def __init__(self, generator=GENERATOR):
-        super(base36, self).__init__(BASE36, generator)
+    def __init__(self, length=HASH_LENGTH, generator=GENERATOR):
+        super(base36, self).__init__(BASE36, length, generator)
 
 
 class base52(base):
 
-    def __init__(self, generator=GENERATOR):
-        super(base52, self).__init__(BASE52, generator)
+    def __init__(self, length=HASH_LENGTH, generator=GENERATOR):
+        super(base52, self).__init__(BASE52, length, generator)
 
 
 class base56(base):
 
-    def __init__(self, generator=GENERATOR):
-        super(base56, self).__init__(BASE56, generator)
+    def __init__(self, length=HASH_LENGTH, generator=GENERATOR):
+        super(base56, self).__init__(BASE56, length, generator)
 
 
 class base58(base):
 
-    def __init__(self, generator=GENERATOR):
-        super(base58, self).__init__(BASE58, generator)
+    def __init__(self, length=HASH_LENGTH, generator=GENERATOR):
+        super(base58, self).__init__(BASE58, length, generator)
 
 
 class base62(base):
 
-    def __init__(self, generator=GENERATOR):
-        super(base62, self).__init__(BASE62, generator)
+    def __init__(self, length=HASH_LENGTH, generator=GENERATOR):
+        super(base62, self).__init__(BASE62, length, generator)
 
 
 class base94(base):
 
-    def __init__(self, generator=GENERATOR):
-        super(base94, self).__init__(BASE94, generator)
+    def __init__(self, length=HASH_LENGTH, generator=GENERATOR):
+        super(base94, self).__init__(BASE94, length, generator)
