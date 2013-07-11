@@ -1,6 +1,8 @@
 BaseHash
 ========
 
+[![Build Status](https://travis-ci.org/bnlucas/python-basehash.png?branch=master)](https://travis-ci.org/bnlucas/python-basehash)
+
 BaseHash is a small library for creating reversible obfuscated identifier hashes
 to a given base and length. The project is based on the GO library, [PseudoCrypt][pc]
 by [Kevin Burns][kb]. The library is extendible to use custom alphabets and other
