@@ -21,16 +21,27 @@ BASE94 = ('!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 
 def generate_alphabet(alphabet, randomize=10):
-    alphalist = list(set(alphabet))
+    alphalist = list(alphabet)
     for i in xrange(randomize):
         shuffle(alphalist)
     return ''.join(alphalist)
 
 
+class InvalidAlphabet(Exception):
+
+    def __init__(self, alphabet):
+        if isinstance(alphabet, ('list', 'tuple')):
+            alphabet = ''.join(alphabet)
+        super(InvalidAlphabet, self).__init__(
+            '{a} contains duplicate characters.'.format(a=alphabet))
+
+
 class base(object):
 
     def __init__(self, alphabet, length=HASH_LENGTH, generator=GENERATOR):
-        self.alphabet = list(set(alphabet))
+        if len(set(alphabet)) != len(alphabet):
+            raise InvalidAlphabet(alphabet)
+        self.alphabet = tuple(alphabet)
         self.base = len(self.alphabet)
         self.hash_length = length
         self.generator = generator

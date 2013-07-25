@@ -1,11 +1,9 @@
 2.1.0 (2013-07-24)
 ==================
 
-- Create custom alphabets using `basehash.generate_alphabet(alphabet)`.
+- Create custom random alphabets using `basehash.generate_alphabet(alphabet)`.
 
-- BaseHash.base now sets `self.alphabet` to `list(set(alphabet))` over the
-  original `tuple(alphabet)` to remove any possible duplicates in a custom
-  alphabet.
+- BaseHash.base now checks `alphabet` for duplicates using `set`.
 
 2.0.2 (2013-07-10)
 ==================
