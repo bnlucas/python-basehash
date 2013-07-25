@@ -2,7 +2,8 @@ from random import shuffle
 
 from primes import invmul, next_prime
 
-__all__ = ('base', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94')
+__all__ = ('base', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94',
+           'generate_alphabet')
 
 __version__ = '2.1.0'
 
