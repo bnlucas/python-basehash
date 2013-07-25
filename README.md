@@ -76,7 +76,21 @@ within the base classes.
 ```python
 import basehash
 
-base62 = base62(1.75) # base62(generator=1.75)
+base62 = basehash.base62(1.75) # base62(generator=1.75)
+```
+
+Generating your own alphabets
+-----------------------------
+
+```python
+import basehash
+
+alphabet = basehash.generate_alphabet(basehash.BASE36, randomize=20)
+# runs random.shuffle on basehash.BASE36 (randomize)=20 times.
+# produces something like: L0RJBY2HQ7MSGXPE6NCUW38KAFVDO51IZ94T
+# save this alphabet to use for hasher.unhash()
+
+hasher = basehash.base(alphabet, length=10)
 ```
 
 Maximum number while hashing

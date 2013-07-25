@@ -1,8 +1,10 @@
+from random import shuffle
+
 from primes import invmul, next_prime
 
 __all__ = ('base', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94')
 
-__version__ = '2.0.2'
+__version__ = '2.1.0'
 
 
 HASH_LENGTH = 6
@@ -18,10 +20,17 @@ BASE94 = ('!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ'
           '[\]^_`abcdefghijklmnopqrstuvwxyz{|}~')
 
 
+def generate_alphabet(alphabet, randomize=10):
+    alphalist = list(set(alphabet))
+    for i in xrange(randomize):
+        shuffle(alphalist)
+    return ''.join(alphalist)
+
+
 class base(object):
 
     def __init__(self, alphabet, length=HASH_LENGTH, generator=GENERATOR):
-        self.alphabet = tuple(alphabet)
+        self.alphabet = list(set(alphabet))
         self.base = len(self.alphabet)
         self.hash_length = length
         self.generator = generator
