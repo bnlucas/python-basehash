@@ -92,7 +92,7 @@ def selfridge(n):
             return ds, 0, 0
 
         if jacobi(ds, n) == -1:
-            return ds, 1, (1 - ds) / 4
+            return ds, 1, (1 - ds) // 4
 
         d += 2
         s *= -1
@@ -117,7 +117,7 @@ def chain(n, u1, v1, u2, v2, d, q, m):
             if v1 & 1 == 1:
                 v1 = v1 + n
 
-            u1, v1 = (u1 / 2) % n, (v1 / 2) % n
+            u1, v1 = (u1 // 2) % n, (v1 // 2) % n
             k = (q * k) % n
 
         m = m >> 1
