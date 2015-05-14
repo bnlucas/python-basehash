@@ -5,7 +5,7 @@ from .primes import invmul, next_prime
 __all__ = ('base', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94',
            'generate_alphabet')
 
-__version__ = '2.1.0'
+__version__ = '2.2.0'
 
 
 HASH_LENGTH = 6
