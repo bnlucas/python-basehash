@@ -92,7 +92,7 @@ def selfridge(n):
             return ds, 0, 0
 
         if jacobi(ds, n) == -1:
-            return ds, 1, (1 - ds) / 4
+            return ds, 1, (1 - ds) // 4
 
         d += 2
         s *= -1
@@ -117,7 +117,7 @@ def chain(n, u1, v1, u2, v2, d, q, m):
             if v1 & 1 == 1:
                 v1 = v1 + n
 
-            u1, v1 = (u1 / 2) % n, (v1 / 2) % n
+            u1, v1 = (u1 // 2) % n, (v1 // 2) % n
             k = (q * k) % n
 
         m = m >> 1
@@ -137,7 +137,7 @@ def strong_pseudoprime(n, a, s=None, d=None):
     if x == 1:
         return True
 
-    for i in xrange(s):
+    for i in range(s):
         if x == n - 1:
             return True
 
@@ -173,7 +173,7 @@ def strong_lucas_pseudoprime(n):
     if (u == 0) or (v == 0):
         return True
 
-    for i in xrange(1, s):
+    for i in range(1, s):
         v = (v * v - 2 * k) % n
         k = (k * k) % n
         if v == 0:
@@ -197,7 +197,7 @@ def miller_rabin(n, k=10):
 
     s, d = factor(n)
 
-    for i in xrange(k):
+    for i in range(k):
         a = randrange(2, n - 1)
         if not strong_pseudoprime(n, a, s, d):
             return False
@@ -219,7 +219,7 @@ def baillie_psw(n, limit=100):
         return n in PRIMES_LE_31
 
     bound = min(limit, isqrt(n))
-    for i in xrange(3, bound, 2):
+    for i in range(3, bound, 2):
         if not n % i:
             return False
 
