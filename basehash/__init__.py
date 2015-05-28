@@ -23,7 +23,7 @@ BASE94 = ('!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 def generate_alphabet(alphabet, randomize=10):
     alphalist = list(alphabet)
-    for i in range(randomize):
+    for i in xrange(randomize):
         shuffle(alphalist)
     return ''.join(alphalist)
 

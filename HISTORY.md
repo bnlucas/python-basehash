@@ -1,3 +1,9 @@
+2.2.1 (2015-05-28)
+==================
+
+- Implemented [six](https://bitbucket.org/gutworth/six) to allow use of `xrange`
+  in Python 2 and `range` in Python 3
+
 2.2.0 (2015-05-14)
 ==================
 

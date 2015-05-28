@@ -1,6 +1,8 @@
 from fractions import gcd
 from random import randrange
 
+from six.moves import xrange
+
 PRIMES_LE_31 = (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31)
 PRIMONIAL_31 = 200560490130
 
@@ -137,7 +139,7 @@ def strong_pseudoprime(n, a, s=None, d=None):
     if x == 1:
         return True
 
-    for i in range(s):
+    for i in xrange(s):
         if x == n - 1:
             return True
 
@@ -173,7 +175,7 @@ def strong_lucas_pseudoprime(n):
     if (u == 0) or (v == 0):
         return True
 
-    for i in range(1, s):
+    for i in xrange(1, s):
         v = (v * v - 2 * k) % n
         k = (k * k) % n
         if v == 0:
@@ -197,7 +199,7 @@ def miller_rabin(n, k=10):
 
     s, d = factor(n)
 
-    for i in range(k):
+    for i in xrange(k):
         a = randrange(2, n - 1)
         if not strong_pseudoprime(n, a, s, d):
             return False
@@ -219,7 +221,7 @@ def baillie_psw(n, limit=100):
         return n in PRIMES_LE_31
 
     bound = min(limit, isqrt(n))
-    for i in range(3, bound, 2):
+    for i in xrange(3, bound, 2):
         if not n % i:
             return False
 
