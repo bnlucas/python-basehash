@@ -25,7 +25,7 @@ setup(
     description='Reversible obfuscated identifier hashes.',
     long_description=open('README.md').read() + '\n\n' + open('HISTORY.md').read(),
     author='Nathan Lucas',
-    author_email='nathan@bnlucas.com',
+    author_email='bnlucas@outlook.com',
     url='http://bnlucas.github.io/python-basehash',
     download_url='https://github.com/bnlucas/python-basehash/archive/master.zip',
     packages=['basehash'],
