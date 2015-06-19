@@ -1,59 +1,91 @@
-from fractions import gcd
 from random import randrange
 
 from six.moves import xrange
+
+try:
+    from gmpy2 import is_prime as gmpy2_is_prime, next_prime as gmpy2_next_prime
+    GMPY2 = True
+except ImportError:
+    GMPY2 = False
+
 
 PRIMES_LE_31 = (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31)
 PRIMONIAL_31 = 200560490130
 
 
-def invmul(x, mod):
-    if mod <= 0:
-        raise ValueError('Modulus must be greater than zero.')
-    a = abs(x)
-    b = mod
-    c, d, e, f = 1, 0, 0, 1
-    while b > 0:
-        q, r = divmod(a, b)
-        g = c - q * d
-        h = e - q * f
-        a, b, c, d, e, f = b, r, d, g, f, h
-    if a != 1:
-        raise ValueError('{x} has no multiplicative '
-                         'inverse modulo {m}'.format(x=x, m=mod))
-    return c * -1 if x < 0 else c * 1
+def modinv(n, m):
+    '''
+    returns the modular inverse of n mod m.
+    '''
+    g, _g = n, m
+    x, _x = 1, 0
+
+    while _g:
+        q = g // _g
+        g, _g = _g, (g - q * _g)
+        x, _x = _x, (x - q * _x)
+
+    if g > 1:
+        raise ValueError('There is no inverse for {} mod {}'.format(n, m))
+
+    if x < 0:
+        x = x + m
+
+    return x
+
+
+def gcd(*n):
+    from fractions import gcd
+
+    return abs(reduce(gcd, n))
 
 
 def isqrt(n):
+    '''
+    integer square root.
+
+    - In number theory, the integer square root (isqrt) of a positive integer n
+      is the positive integer m which is the greatest integer less than or equal
+      to the square root of n.
+
+    '''
     if n < 0:
         raise ValueError('Square root is not defined for negative numbers.')
-    x = int(n)
-    if x == 0:
-        return 0
-    a, b = divmod(x.bit_length(), 2)
-    n = 2 ** (a + b)
+
+    if n < 2:
+        return 2
+
+    a = 1 << ((1 + n.bit_length()) >> 1)
+
     while True:
-        y = (n + x // n) >> 1
-        if y >= n:
-            return n
-        n = y
+        b = (a + n // a) >> 1
+
+        if b >= a:
+            return a
+
+        a = b
 
 
 def is_square(n):
+    '''
+    Determine if n is square based on the integer square root: isqrt(n)
+    '''
     s = isqrt(n)
     return s * s == n
 
 
 def factor(n, p=2):
+    '''
+    Compute n-1 = 2^s * d for strong psuedoprime and strong lucas psuedoprime.
+    '''
     s = 0
-    d = n - 1
-    q = p
+    n -= 1
 
-    while not d & q - 1:
+    while not n % p:
         s += 1
-        q *= p
+        n //= p
 
-    return s, d // (q // p)
+    return s, n
 
 
 def jacobi(a, p):
@@ -101,22 +133,22 @@ def selfridge(n):
         ds = d * s
 
 
-def chain(n, u1, v1, u2, v2, d, q, m):
+def lucas_sequence(n, u1, v1, u2, v2, d, q, m):
     k = q
     while m > 0:
         u2 = (u2 * v2) % n
         v2 = (v2 * v2 - 2 * q) % n
         q = (q * q) % n
 
-        if m & 1 == 1:
+        if m & 1:
             t1, t2 = u2 * v1, u1 * v2
             t3, t4 = v2 * v1, u2 * u1 * d
             u1, v1 = t1 + t2, t3 + t4
 
-            if u1 & 1 == 1:
+            if u1 & 1:
                 u1 = u1 + n
 
-            if v1 & 1 == 1:
+            if v1 & 1:
                 v1 = v1 + n
 
             u1, v1 = (u1 // 2) % n, (v1 // 2) % n
@@ -127,14 +159,18 @@ def chain(n, u1, v1, u2, v2, d, q, m):
     return u1, v1, k
 
 
-def strong_pseudoprime(n, a, s=None, d=None):
+def trial_division(n):
+    return all(n % i for i in xrange(3, isqrt(n) + 1, 2))
+
+
+def strong_pseudoprime(n, base=2, s=None, d=None):
     if not n & 1:
         return False
 
-    if (s is None) or (d is None):
+    if not s or not d:
         s, d = factor(n, 2)
 
-    x = pow(a, d, n)
+    x = pow(base, d, n)
 
     if x == 1:
         return True
@@ -148,6 +184,14 @@ def strong_pseudoprime(n, a, s=None, d=None):
     return False
 
 
+def small_strong_pseudoprime(n):
+    for i in [2, 13, 23, 1662803]:
+        if not strong_pseudoprime(n, i):
+            return False
+
+    return True
+
+
 def lucas_pseudoprime(n):
     if not n & 1:
         return False
@@ -156,7 +200,7 @@ def lucas_pseudoprime(n):
     if p == 0:
         return n == d
 
-    u, v, k = chain(n, 0, 2, 1, p, d, q, (n + 1) >> 1)
+    u, v, k = lucas_sequence(n, 0, 2, 1, p, d, q, (n + 1) >> 1)
     return u == 0
 
 
@@ -170,7 +214,7 @@ def strong_lucas_pseudoprime(n):
 
     s, t = factor(n + 2)
 
-    u, v, k = chain(n, 1, p, 1, p, d, q, t >> 1)
+    u, v, k = lucas_sequence(n, 1, p, 1, p, d, q, t >> 1)
 
     if (u == 0) or (v == 0):
         return True
@@ -182,29 +226,6 @@ def strong_lucas_pseudoprime(n):
             return True
 
     return False
-
-
-def miller_rabin(n, k=10):
-    if n == 2:
-        return True
-
-    if not n & 1:
-        return False
-
-    if n < 2 or is_square(n):
-        return False
-
-    if gcd(n, PRIMONIAL_31) > 1:
-        return n in PRIMES_LE_31
-
-    s, d = factor(n)
-
-    for i in xrange(k):
-        a = randrange(2, n - 1)
-        if not strong_pseudoprime(n, a, s, d):
-            return False
-
-    return True
 
 
 def baillie_psw(n, limit=100):
@@ -230,7 +251,30 @@ def baillie_psw(n, limit=100):
         and strong_lucas_pseudoprime(n)
 
 
+def is_prime(n):
+    if GMPY2:
+        return gmpy2_is_prime(n)
+
+    if int(n) != n:
+        return ValueError('Non-integer provided.')
+
+    if gcd(n, 510510) > 1:
+        return (n in (2, 3, 5, 7, 11, 13, 17))
+
+    if n < 2000000:
+        return trial_division(n)
+
+    if n.bit_length() <= 512:
+        if not small_strong_pseudoprime(n):
+            return False
+
+    return baillie_psw(n)
+
+
 def next_prime(n):
+    if GMPY2:
+        return gmpy2_next_prime(n)
+
     if n < 2:
         return 2
 
@@ -240,9 +284,12 @@ def next_prime(n):
     gap = [1, 6, 5, 4, 3, 2, 1, 4, 3, 2, 1, 2, 1, 4, 3, 2, 1, 2, 1, 4, 3, 2, 1,
            6, 5, 4, 3, 2, 1, 2]
 
-    n += 1 if not n & 1 else 2
+    n += (1 + (n & 1))
 
-    while not baillie_psw(n):
+    if n % 3 == 0 or n % 5 == 0:
+        n += gap[n % 30]
+
+    while not is_prime(n):
         n += gap[n % 30]
 
     return n

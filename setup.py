@@ -32,7 +32,7 @@ setup(
     package_data={'': ['LICENSE'], 'tests': '*.py'},
     package_dir={'basehash': 'basehash'},
     include_package_data=True,
-    install_requires=['six'],
+    install_requires=[],
     license=open('LICENSE').read(),
     zip_safe=False,
     keywords=['base', 'encoding', 'hash', 'hashing', 'security'],

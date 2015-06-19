@@ -1,6 +1,6 @@
 from random import shuffle
 
-from .primes import invmul, next_prime
+from primes import invmul, next_prime
 
 __all__ = ('base', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94',
            'generate_alphabet')
@@ -19,6 +19,8 @@ BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 BASE62 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 BASE94 = ('!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ'
           '[\]^_`abcdefghijklmnopqrstuvwxyz{|}~')
+
+CUSTOM = 'XZ*TY+NW8CJ7MRKV6Q0-1B2GhFHD$!59&3#L4SP%.,'
 
 
 def generate_alphabet(alphabet, randomize=10):
@@ -140,3 +142,4 @@ class base94(base):
 
     def __init__(self, length=HASH_LENGTH, generator=GENERATOR):
         super(base94, self).__init__(BASE94, length, generator)
+

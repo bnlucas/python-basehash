@@ -1,3 +1,21 @@
+3.3.0 (2015-06-19)
+==================
+
+- Massive overhaul on the primes.py methods. Each method was benchmarked to
+  get the best optimization possible.
+
+- Uses [gmpy2](https://gmpy2.readthedocs.org/) if available, otherwise use the 
+  baillie_psw primality check and the next_prime methods in primes.py
+
+- `base.hash()` no longer accepts argument `length`. One instance per hash length.
+
+- `base.maximum()`, `base.maximum_value()`, and `base.prime()` have been
+  removed. To get maximum hash value, call `base.maximum`. To get the prime used
+  call `base.prime`
+
+- `primes.miller_rabin` was removed as it was replaced by `primes.baillie_psw`
+  in v1.0.2.
+
 2.2.1 (2015-05-28)
 ==================
 

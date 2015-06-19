@@ -3,13 +3,13 @@ from nose.tools import raises
 from basehash.primes import *
 
 
-def test_invmul_with_2717683_mod_4():
-    invmul(2717683, 4)
+def test_modinv_with_2717683_mod_4():
+    modinv(2717683, 4)
 
 
 @raises(ValueError)
-def test_invmul_with_200_mod_2():
-    invmul(200, 2)
+def test_modinv_with_200_mod_2():
+    modinv(200, 2)
 
 
 def test_isqrt_with_2717683():
@@ -51,8 +51,8 @@ def test_selfridge_with_2717684():
     selfridge(2717684)
 
 
-def test_chain_with_2717683_0_2_1_1_5_neg_1_1358842():
-    assert chain(2717683, 0, 2, 1, 1, 5, -1, 1358842) == (0, 2717681, 2717682)
+def test_lucas_sequence_with_2717683_0_2_1_1_5_neg_1_1358842():
+    assert lucas_sequence(2717683, 0, 2, 1, 1, 5, -1, 1358842) == (0, 2717681, 2717682)
 
 
 def test_strong_pseudoprime_with_3_and_2():
@@ -77,14 +77,6 @@ def test_strong_lucas_pseudoprime_with_2717683():
 
 def test_strong_lucas_pseudoprime_with_2717684():
     assert not strong_lucas_pseudoprime(2717684)
-
-
-def test_miller_rabin_with_2717683():
-    assert miller_rabin(2717683)
-
-
-def test_miller_rabin_with_2717684():
-    assert not miller_rabin(2717684)
 
 
 def test_baillie_psw_with_2717683():

@@ -8,18 +8,45 @@ to a given base and length. The project is based on the GO library, [PseudoCrypt
 by [Kevin Burns][kb]. The library is extendible to use custom alphabets and other
 bases.
 
-The library uses golden primes and the [Baillie-PSW][bp] primality test for hashing 
-to `n` length. From testing, I have gotten `base62` up to `171` in length.
+The library uses golden primes and the [Baillie-PSW][bp] primality test or the
+`gmpy2.is_prime` (if available) for hashing to `maximum` length (`base ** length - 1`).
 
+v3.3.0
+------
+A massive overhaul was done with the primality algorithms. Including support for
+[gmpy2][gmp] if it available on the system for that much more of an increase.
+
+All methods being used to check primality in `primes.py` have been optimized and
+benchmarked to try to get the best possible preformance when `gmpy2.is_prime`
+and `gmpy2.next_prime` are not available.
+
+v3.0.0 vs v2.2.0 without gmpy2
+------------------------------
 ```
-Maximum number is Base^Length - 1.
--> 62^171 - 1 or 315485137315301582773830923281251564555089304044116975095028710
-                 008180170985809814948409129256031320171601473029340987051144213
-                 425607224233134700199050224309707192084206558324823774511143549
-                 765069844412467187455459156942237963528166277256376429656681225
-                 8180788198965409784329587392583208081351811265973977087
+--------------------------------------------------------------------------------
+ basehash 3.0.0 vs basehash 2.2.1 speed comparison. (without gmpy2)
+ testing against random 128-bit integer with BASE62 and length of 30.
+
+ comparing best 100 of 1000 loops.
+--------------------------------------------------------------------------------
+ bh300                                                    @        0.011989977s 
+ bh220                                                    @        0.019100001s 
+--------------------------------------------------------------------------------
 ```
 
+v3.0.0 vs v2.2.0 with gmpy2
+---------------------------
+```
+--------------------------------------------------------------------------------
+ basehash 3.0.0 vs basehash 2.2.1 speed comparison. (with gmpy2)
+ testing against random 128-bit integer with BASE62 and length of 30.
+
+ comparing best 100 of 1000 loops.
+--------------------------------------------------------------------------------
+ bh300                                                    @        0.002969882s 
+ bh220                                                    @        0.018960006s 
+--------------------------------------------------------------------------------
+```
 
 Install
 -------
@@ -40,7 +67,7 @@ Encode
 ```python
 import basehash
 
-base62 = basehash.base62()
+base62 = basehash.base62(8)
 
 encoded = base62.encode(2013)
 decoded = base62.decode('WT')
@@ -56,9 +83,9 @@ Hash
 ```python
 import basehash
 
-base62 = basehash.base62()
+base62 = basehash.base62(8)
 
-hashed   = base62.hash(2013, 8)
+hashed   = base62.hash(2013)
 unhashed = base62.unhash('6LhOma5b')
 
 print hashed, unhashed
@@ -76,21 +103,7 @@ within the base classes.
 ```python
 import basehash
 
-base62 = basehash.base62(1.75) # base62(generator=1.75)
-```
-
-Generating your own alphabets
------------------------------
-
-```python
-import basehash
-
-alphabet = basehash.generate_alphabet(basehash.BASE36, randomize=20)
-# runs random.shuffle on basehash.BASE36 (randomize)=20 times.
-# produces something like: L0RJBY2HQ7MSGXPE6NCUW38KAFVDO51IZ94T
-# save this alphabet to use for hasher.unhash()
-
-hasher = basehash.base(alphabet, length=10)
+base62 = basehash.base62(generator=1.75)
 ```
 
 Maximum number while hashing
@@ -101,9 +114,9 @@ this number is, we use the `Base^Length - 1`.
 ```python
 import basehash
 
-base36 = basehash.base36()
+base36 = basehash.base36(10)
 
-print base36.maximum_value(12) # or base36.maximum(length)
+print base36.maximum
 ```
 ```
 4738381338321616895
@@ -115,12 +128,12 @@ get the following:
 ```python
 import basehash
 
-base36 = basehash.base36()
+base36 = basehash.base36(12)
 
-hash = base36.hash(4738381338321616895, 12)
+hash = base36.hash(4738381338321616895)
 # 'DR10828P4CZP'
 
-hash = base36.hash(4738381338321616896, 12)
+hash = base36.hash(4738381338321616896)
 # ValueError: Number is too large for given length. Maximum is 36^12 - 1.
 ```
 
@@ -132,15 +145,16 @@ dynamically, the fastest possible that I have been able to make it so far.
 ```python
 import basehash
 
-custom = basehash.base('24680ACEGIKMOQSUWYbdfhjlnprtvxz')
+custom = basehash.base('24680ACEGIKMOQSUWYbdfhjlnprtvxz', 8)
 
 print custom.encode(2013)       # 66x
 print custom.decode('66x')      # 2013
-print custom.hash(2013, 8)      # 8AQAQdYd
+print custom.hash(2013)      # 8AQAQdYd
 print custom.unhash('8AQAQdYd') # 2013
-print custom.maximum_value(12)  # 787662783788549760
+print custom.maximum         # 787662783788549760
 ```
 
 [pc]: https://github.com/KevBurnsJr/pseudocrypt
 [kb]: https://github.com/KevBurnsJr
 [bp]: http://en.wikipedia.org/wiki/Baillie-PSW_primality_test
+[gmp]: https://gmpy2.readthedocs.org/

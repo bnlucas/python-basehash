@@ -1,11 +1,8 @@
-from random import shuffle
+from .primes import modinv, next_prime
 
-from .primes import invmul, next_prime
+__all__ = ('base', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94')
 
-__all__ = ('base', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94',
-           'generate_alphabet')
-
-__version__ = '2.2.1'
+__version__ = '3.0.0'
 
 
 HASH_LENGTH = 6
@@ -21,89 +18,63 @@ BASE94 = ('!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ'
           '[\]^_`abcdefghijklmnopqrstuvwxyz{|}~')
 
 
-def generate_alphabet(alphabet, randomize=10):
-    alphalist = list(alphabet)
-    for i in xrange(randomize):
-        shuffle(alphalist)
-    return ''.join(alphalist)
-
-
-class InvalidAlphabet(Exception):
-
-    def __init__(self, alphabet):
-        if isinstance(alphabet, ('list', 'tuple')):
-            alphabet = ''.join(alphabet)
-        super(InvalidAlphabet, self).__init__(
-            '{a} contains duplicate characters.'.format(a=alphabet))
-
-
 class base(object):
 
     def __init__(self, alphabet, length=HASH_LENGTH, generator=GENERATOR):
         if len(set(alphabet)) != len(alphabet):
-            raise InvalidAlphabet(alphabet)
-        self.alphabet = tuple(alphabet)
-        self.base = len(self.alphabet)
-        self.hash_length = length
-        self.generator = generator
+            raise ValueError('Supplied alphabet cannot contain duplicates.')
 
-    def encode(self, num):
-        num = int(num)
-        if num <= 0:
-            raise ValueError('Number must be greater than zero.')
+        self.alphabet = tuple(alphabet)
+        self.base = len(alphabet)
+        self.length = length
+        self.generator = generator
+        self.maximum = self.base ** self.length - 1
+        self.prime = next_prime(int((self.maximum + 1) * self.generator))
+
+    def encode(self, n):
+        n = int(n)
+        
+        if n <= 0:
+            raise ValueError('Negative integer provided.')
+
         key = []
-        while num > 0:
-            num, c = divmod(num, self.base)
+
+        while n > 0:
+            n, c = divmod(n, self.base)
             key.append(self.alphabet[c])
-        return ''.join(reversed(key))
+
+        key = reversed(key)
+
+        return ''.join(key)
 
     def decode(self, key):
         key = reversed(key)
         return sum([self.alphabet.index(c) * self.base ** i
                     for i, c in enumerate(key)])
 
-    def hash(self, num, length=None):
-        if length is None:
-            length = self.hash_length
+    def hash(self, n):
+        n = int(n)
 
-        num = int(num)
-        if num == 0:
-            return ''.rjust(length, self.alphabet[0])
+        if n == 0:
+            return ''.rjust(self.length, self.alphabet[0])
 
-        if num > (self.base ** length - 1):
-            raise ValueError('Number is too large for given length. Maximum is '
-                             '{b}^{l} - 1.'.format(b=self.base,
-                                                   l=length))
+        if n > self.maximum:
+            raise ValueError('Integer provided is too large for given length.')
 
-        num = num * self.prime(length) % self.base ** length
+        n = n * self.prime % self.base ** self.length
 
-        return self.encode(num).rjust(length, self.alphabet[0])
+        return self.encode(n).rjust(self.length, self.alphabet[0])
 
     def unhash(self, key):
-        length = len(key)
+        if len(key) != self.length:
+            raise ValueError('Key length does not match base length.')
 
-        if key == ''.rjust(length, self.alphabet[0]):
+        if key == ''.rjust(self.length, self.alphabet[0]):
             return 0
 
-        m = self.base ** length
-        return self.decode(key) * invmul(self.prime(length), m) % m
+        m = self.maximum + 1
 
-    def maximum(self, length=None):
-        if length is None:
-            length = self.hash_length
-
-        return self.maximum_value(length)
-
-    def maximum_value(self, length=None):
-        if length is None:
-            length = self.hash_length
-
-        length = int(length)
-        return self.base ** length - 1
-
-    def prime(self, num):
-        num = int(num)
-        return next_prime(int(self.base ** num * self.generator))
+        return self.decode(key) * modinv(self.prime, m) % m
 
 
 class base36(base):
