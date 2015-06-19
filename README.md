@@ -1,7 +1,7 @@
 BaseHash
 ========
 
-[![Build Status](https://travis-ci.org/bnlucas/python-basehash.png?branch=master)](https://travis-ci.org/bnlucas/python-basehash)
+[![Build Status](https://travis-ci.org/bnlucas/python-basehash.png?branch=master)](https://travis-ci.org/bnlucas/python-basehash) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bnlucas/python-basehash/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 BaseHash is a small library for creating reversible obfuscated identifier hashes
 to a given base and length. The project is based on the GO library, [PseudoCrypt][pc]
