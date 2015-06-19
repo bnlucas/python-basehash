@@ -1,4 +1,9 @@
-3.3.0 (2015-06-19)
+3.0.1 (2015-06-19)
+==================
+
+- `pip install basehash` giving error. Corrected this in `setup.py`
+
+3.0.0 (2015-06-19)
 ==================
 
 - Massive overhaul on the primes.py methods. Each method was benchmarked to
