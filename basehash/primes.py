@@ -1,6 +1,6 @@
 from random import randrange
 
-from six.moves import xrange
+from six.moves import xrange, reduce
 
 try:
     from gmpy2 import is_prime as gmpy2_is_prime, next_prime as gmpy2_next_prime
