@@ -1,3 +1,9 @@
+3.0.2 (2015-06-28)
+==================
+
+- Modified `setup.py` to no longer read from `README.md` and `HISTORY.md` as it
+  was causing errors when installing from PyPi.
+
 3.0.1 (2015-06-19)
 ==================
 

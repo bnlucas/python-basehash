@@ -2,7 +2,7 @@ from .primes import modinv, next_prime
 
 __all__ = ('base', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94')
 
-__version__ = '3.0.1'
+__version__ = '3.0.2'
 
 
 HASH_LENGTH = 6
