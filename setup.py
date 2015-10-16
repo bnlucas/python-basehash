@@ -6,8 +6,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-import basehash
-
+exec(open('basehash/version.py').read())
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
@@ -21,7 +20,7 @@ if sys.argv[-1] == 'prep':
 
 setup(
     name='BaseHash',
-    version=basehash.__version__,
+    version=__version__,
     description='Reversible obfuscated identifier hashes.',
     long_description='''
 BaseHash is a small library for creating reversible obfuscated identifier hashes
@@ -40,7 +39,7 @@ The library uses golden primes and the Baillie-PSW primality test or the
     package_data={'': ['LICENSE'], 'tests': '*.py'},
     package_dir={'basehash': 'basehash'},
     include_package_data=True,
-    install_requires=[],
+    install_requires=['six'],
     license='''
 Copyright 2013 Nathan Lucas
 

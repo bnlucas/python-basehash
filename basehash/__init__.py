@@ -1,8 +1,7 @@
 from .primes import modinv, next_prime
+from .version import __version__
 
 __all__ = ('base', 'base36', 'base52', 'base56', 'base58', 'base62', 'base94')
-
-__version__ = '3.0.2'
 
 
 HASH_LENGTH = 6
