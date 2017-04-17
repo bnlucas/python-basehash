@@ -158,3 +158,7 @@ print custom.maximum         # 787662783788549760
 [kb]: https://github.com/KevBurnsJr
 [bp]: http://en.wikipedia.org/wiki/Baillie-PSW_primality_test
 [gmp]: https://gmpy2.readthedocs.org/
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bnlucas/python-basehash/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
