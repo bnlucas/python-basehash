@@ -7,3 +7,4 @@ MANIFEST.in
 BaseHash.egg-info/
 dist/
 build/
+.python-version
