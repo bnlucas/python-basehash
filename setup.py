@@ -36,7 +36,7 @@ The library uses golden primes and the Baillie-PSW primality test or the
     url='http://bnlucas.github.io/python-basehash',
     download_url='https://github.com/bnlucas/python-basehash/archive/master.zip',
     packages=['basehash'],
-    package_data={'': ['LICENSE'], 'tests': '*.py'},
+    package_data={'': ['LICENSE'], 'tests': ['*.py']},
     package_dir={'basehash': 'basehash'},
     include_package_data=True,
     install_requires=['six'],
