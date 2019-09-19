@@ -33,7 +33,7 @@ class base(object):
     def encode(self, n):
         n = int(n)
         
-        if n <= 0:
+        if n < 0:
             raise ValueError('Negative integer provided.')
 
         key = []
