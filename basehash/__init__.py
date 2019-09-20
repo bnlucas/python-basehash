@@ -35,6 +35,8 @@ class base(object):
         
         if n < 0:
             raise ValueError('Negative integer provided.')
+        elif n == 0:
+            return self.alphabet[0]
 
         key = []
 
