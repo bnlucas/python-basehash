@@ -50,8 +50,8 @@ class base(object):
 
     def decode(self, key):
         key = reversed(key)
-        return sum([self.alphabet.index(c) * self.base ** i
-                    for i, c in enumerate(key)])
+        return sum(self.alphabet.index(c) * self.base ** i
+                    for i, c in enumerate(key))
 
     def hash(self, n):
         n = int(n)
