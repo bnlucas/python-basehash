@@ -35,7 +35,11 @@ def modinv(n, m):
 
 
 def gcd(*n):
-    from fractions import gcd
+    try:
+        from math import gcd
+    except ImportError:
+        # Python 3.4 and earlier
+        from fractions import gcd
 
     return abs(reduce(gcd, n))
 
