@@ -2,6 +2,13 @@
 
 [![Build Status](https://travis-ci.org/bnlucas/python-basehash.png?branch=master)](https://travis-ci.org/bnlucas/python-basehash)
 
+# *** DEPRECATED ***
+BaseHash is now deprecated and will no longer be maintained.
+[Obfuskey](https://github.com/bnlucas/obfuskey) has been created to replace it. A
+decision made when looking to modernize this utility. Obfuskey is only tested on
+python3.6 and higher, so if you're needing lower support, you can continue to use
+BaseHash.
+
 BaseHash is a small library for creating reversible obfuscated identifier hashes
 to a given base and length. The project is based on the GO library, [PseudoCrypt][pc]
 by [Kevin Burns][kb]. The library is extendible to use custom alphabets and other
